@@ -64,7 +64,7 @@ const schema = {
 export async function POST(req: NextRequest) {
   try {
     // Rate limiting: max 10 requests per 15 minutes per IP
-    const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown';
+    const ip = req.headers.get('x-forwarded-for') || 'unknown';
     const count = (rateLimit.get(ip) as number) || 0;
     if (count >= 10) {
       return NextResponse.json({ error: 'Rate limit exceeded. Please try again later.' }, { status: 429 });
